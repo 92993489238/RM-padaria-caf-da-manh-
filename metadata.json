@@ -1,0 +1,6 @@
+{
+  "name": "Padaria Gosto da Manhã",
+  "description": "Padaria artesanal em Manaus, Amazonas. Pães frescos, bolos regionais, café da manhã e encomendas diretas pelo WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
