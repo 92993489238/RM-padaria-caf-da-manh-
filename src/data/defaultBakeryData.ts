@@ -43,7 +43,7 @@ export const DEFAULT_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: 'pao-fermentacao-natural',
-    name: 'Pão Rústico de Fermentação Lenta',
+    name: 'Pão de queijo e cafezinho aqui na padaria RM cantinho da manhã',
     category: 'Pães',
     subtitle: 'Fermentação natural · Corte artesanal',
     description:
@@ -51,6 +51,8 @@ export const DEFAULT_MENU_ITEMS: MenuItem[] = [
     price: '',
     unitLabel: 'Unidade',
     image: '/src/assets/images/hero_padaria_manaus_1794763144077.jpg',
+    videoUrl:
+      '/assets/aistudio/Coffee_and_cheese_bread_breakfast_95964518_f5962f54.mp4',
   },
   {
     id: 'bolo-macaxeira-regional',
@@ -58,17 +60,18 @@ export const DEFAULT_MENU_ITEMS: MenuItem[] = [
     category: 'Bolos & Folhados',
     subtitle: 'Receita regional · Textura cremosa',
     description:
-      'Preparado com macaxeira fresca e toque dourado de forno, trazendo o sabor tradicional das manhãs do Amazonas.',
+      'O preparo ideal da macaxeira fresca e o toque dourado de forno, trazendo o sabor tradicional das manhãs do bairro de São Jorge e de todo o Amazonas.',
     price: '',
     unitLabel: 'Fatia ou Inteiro',
     image: '/src/assets/images/menu_bolo_macaxeira_1794763144078.jpg',
     videoUrl:
       '/assets/aistudio/Prepara__o_de_bolo_de_macaxeira_cf663695_40dc33a9.mp4',
+    muteAudio: true,
     featured: true,
   },
   {
     id: 'croissant-manteiga',
-    name: 'Tapioca mais saborosa do São Jorge só aqui na RM Padaria',
+    name: 'Diversificações variadas para seu café da manhã',
     category: 'Bolos & Folhados',
     subtitle: 'Massa laminada · Camadas crocantes',
     description:
@@ -77,18 +80,20 @@ export const DEFAULT_MENU_ITEMS: MenuItem[] = [
     unitLabel: 'Unidade',
     image: '/src/assets/images/menu_bolo_macaxeira_1794763144078.jpg',
     videoUrl:
-      '/assets/aistudio/Pessoas_foliando_revista_na_padaria_d43627a9_55c74e80.mp4',
+      '/assets/aistudio/Customers_reading_bakery_breakfa__54a92513_2e81d10b.mp4',
   },
   {
     id: 'combo-cafe-tapioca',
-    name: 'Café Regional com Pão de Queijo e Tapioca',
+    name: 'Variados sucos e salgados para sua merenda deliciosa',
     category: 'Café Regional',
     subtitle: 'Preparado na hora · Sabor de Manaus',
     description:
       'Café encorpado servido quente ao lado de pães de queijo assados na hora e tapioca fresca com preparo artesanal.',
-    price: '',
-    unitLabel: 'Combo Individual',
-    image: '/src/assets/images/menu_cafe_tapioca_1794763143931.jpg',
+    price: 'R$ 15,00',
+    unitLabel: '',
+    image:
+      '/assets/aistudio/Baking_Brazilian_p_o_de_queijo_dbeb2f67_2K_155e9e5f.png',
+    videoUrl: '/assets/aistudio/RM_PADARIA_CONFEITARIA_bfdcb155_5d8a1812.mp4',
     featured: true,
   },
   {
@@ -135,10 +140,13 @@ export const DEFAULT_GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-4',
-    title: 'Mesa do Café Manauara',
-    caption: 'Café quente passado na hora com pão de queijo e tapioca.',
-    image: '/src/assets/images/menu_cafe_tapioca_1794763143931.jpg',
-    mediaType: 'photo',
+    title: 'Os salgados mais crocantes para sua merenda completa',
+    caption:
+      'Folhados e salgados artesanais assados na hora para a sua merenda.',
+    image: '/src/assets/images/galeria_fornada_especial_1794763144836.jpg',
+    mediaType: 'cinema-reel',
+    videoEmbedUrl:
+      '/assets/aistudio/Bakery_video_production_and_mani__9b6a21b1_8c2682b7.mp4',
   },
 ];
 

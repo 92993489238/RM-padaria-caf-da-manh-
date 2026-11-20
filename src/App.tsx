@@ -17,6 +17,7 @@ import {
   TestimonialItem,
 } from './types/bakery';
 import { Navbar } from './components/Navbar';
+import { GlobalVideoBackground } from './components/GlobalVideoBackground';
 import { HeroSection } from './components/HeroSection';
 import { ServicesCraftSection } from './components/ServicesCraftSection';
 import { MenuCatalogSection } from './components/MenuCatalogSection';
@@ -88,30 +89,82 @@ export default function App() {
           videoUrl: item.videoUrl || DEFAULT_MENU_ITEMS[0].videoUrl,
         };
       }
+      if (item.id === 'pao-fermentacao-natural') {
+        const defaultRustic = DEFAULT_MENU_ITEMS.find(
+          (d) => d.id === 'pao-fermentacao-natural',
+        );
+        return {
+          ...item,
+          name:
+            item.name === 'Pão Rústico de Fermentação Lenta' && defaultRustic
+              ? defaultRustic.name
+              : item.name,
+          videoUrl: item.videoUrl || defaultRustic?.videoUrl,
+        };
+      }
       if (item.id === 'bolo-macaxeira-regional') {
         const defaultMacaxeira = DEFAULT_MENU_ITEMS.find(
           (d) => d.id === 'bolo-macaxeira-regional',
         );
+        const oldMacaxeiraDesc =
+          'Preparado com macaxeira fresca e toque dourado de forno, trazendo o sabor tradicional das manhãs do Amazonas.';
         return {
           ...item,
           name:
             item.name === 'Bolo de Macaxeira Caramelizado' && defaultMacaxeira
               ? defaultMacaxeira.name
               : item.name,
+          description:
+            item.description === oldMacaxeiraDesc && defaultMacaxeira
+              ? defaultMacaxeira.description
+              : item.description,
           videoUrl: item.videoUrl || defaultMacaxeira?.videoUrl,
+          muteAudio: item.muteAudio ?? defaultMacaxeira?.muteAudio,
         };
       }
       if (item.id === 'croissant-manteiga') {
         const defaultItem = DEFAULT_MENU_ITEMS.find(
           (d) => d.id === 'croissant-manteiga',
         );
+        const oldMagazineVideo =
+          '/assets/aistudio/Pessoas_foliando_revista_na_padaria_d43627a9_55c74e80.mp4';
+        const isOldVideo = !item.videoUrl || item.videoUrl === oldMagazineVideo;
+        const oldTitles = [
+          'Croissant Folhado na Manteiga',
+          'Tapioca mais saborosa do São Jorge só aqui na RM Padaria',
+        ];
         return {
           ...item,
           name:
-            item.name === 'Croissant Folhado na Manteiga' && defaultItem
+            oldTitles.includes(item.name) && defaultItem
               ? defaultItem.name
               : item.name,
-          videoUrl: item.videoUrl || defaultItem?.videoUrl,
+          videoUrl: isOldVideo ? defaultItem?.videoUrl : item.videoUrl,
+          customAudioText: isOldVideo ? undefined : item.customAudioText,
+          customAudioVoice: isOldVideo ? undefined : item.customAudioVoice,
+        };
+      }
+      if (item.id === 'combo-cafe-tapioca') {
+        const defaultCombo = DEFAULT_MENU_ITEMS.find(
+          (d) => d.id === 'combo-cafe-tapioca',
+        );
+        const oldComboImage =
+          '/src/assets/images/menu_cafe_tapioca_1794763143931.jpg';
+        return {
+          ...item,
+          name:
+            item.name === 'Café Regional com Pão de Queijo e Tapioca' &&
+            defaultCombo
+              ? defaultCombo.name
+              : item.name,
+          price: item.price || defaultCombo?.price || 'R$ 15,00',
+          unitLabel:
+            item.unitLabel === 'Combo Individual' ? '' : item.unitLabel,
+          image:
+            (!item.image || item.image === oldComboImage) && defaultCombo
+              ? defaultCombo.image
+              : item.image,
+          videoUrl: item.videoUrl || defaultCombo?.videoUrl,
         };
       }
       if (item.id === 'cesta-cafe-encomenda' && !item.videoUrl) {
@@ -228,7 +281,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F6F1] dark:bg-[#0F0E0D] text-stone-900 dark:text-[#F5F2EB] transition-colors duration-200">
+    <div className="relative min-h-screen bg-transparent text-stone-900 dark:text-[#F5F2EB] transition-colors duration-200">
+      <GlobalVideoBackground
+        posterImage={config.heroImage}
+        businessName={config.businessName}
+        themeMode={config.themeMode}
+      />
       <Navbar
         config={config}
         cartCount={totalCartItems}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { BakeryConfig } from '../types/bakery';
-import { ResilientImage } from './ResilientImage';
+import { CulinaryVideoPlayer } from './CulinaryVideoPlayer';
 
 interface ServicesCraftSectionProps {
   config: BakeryConfig;
@@ -30,10 +30,9 @@ const CRAFT_PILLARS = [
 
 export const ServicesCraftSection: React.FC<ServicesCraftSectionProps> = ({ config }) => {
   const prefersReducedMotion = useReducedMotion();
-  const [videoError, setVideoError] = useState(false);
 
   return (
-    <section className="py-16 sm:py-24 border-b border-stone-200 dark:border-white/10">
+    <section className="relative z-10 py-16 sm:py-24 border-b border-stone-200 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
           {/* Editorial Storytelling Media */}
@@ -45,33 +44,20 @@ export const ServicesCraftSection: React.FC<ServicesCraftSectionProps> = ({ conf
             className="lg:col-span-5 flex"
           >
             <div className="relative w-full min-h-[320px] lg:h-full rounded-xl overflow-hidden border border-stone-200 dark:border-white/10 bg-[#181614]">
-              {!videoError ? (
-                <video
-                  src="/assets/aistudio/Drone_flying_to_storefront_6e2cf2f0_af445927.mp4"
-                  poster={config.storyImage}
-                  autoPlay={!prefersReducedMotion}
-                  loop
-                  muted
-                  playsInline
-                  controls={Boolean(prefersReducedMotion)}
-                  preload="auto"
-                  onError={() => setVideoError(true)}
-                  aria-label="Chegada aérea à Panificadora e Confeitaria RM"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              ) : (
-                <ResilientImage
-                  src={config.storyImage}
-                  alt="Mestre padeiro preparando massa artesanal"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  fallbackTitle={config.storyHeadline}
-                />
-              )}
+              <CulinaryVideoPlayer
+                src="/assets/aistudio/padaria_RM_doce_cantinho_e494cad2_37ffc1a6.mp4"
+                poster={config.storyImage}
+                title="Apresentação da RM Padaria Doce Cantinho no São Jorge"
+                accentColor={config.accentColor}
+                initialUnmuted={true}
+                hideControls={true}
+                videoClassName="absolute inset-0 w-full h-full object-cover"
+              />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
               />
-              <div className="absolute bottom-0 inset-x-0 p-6">
+              <div className="pointer-events-none absolute bottom-0 inset-x-0 p-6">
                 <p className="text-xs text-[#E7E5E4]/80 mb-1">Ofício de Padaria</p>
                 <p className="font-display text-2xl font-semibold text-[#F5F2EB]">
                   {config.storyHeadline}
@@ -91,11 +77,11 @@ export const ServicesCraftSection: React.FC<ServicesCraftSectionProps> = ({ conf
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-[#F5F2EB] text-balance mb-4">
               Tradição saborosa da melhor padaria do São Jorge, Amazonas, Brasil.
             </h2>
-            <p className="text-base text-stone-600 dark:text-[#A8A29E] leading-relaxed mb-10 max-w-[60ch]">
+            <p className="text-base text-stone-700 dark:text-[#D6D1C7] leading-relaxed mb-10 max-w-[60ch]">
               {config.storyDescription}
             </p>
 
-            <div className="divide-y divide-stone-200 dark:divide-white/10 border-y border-stone-200 dark:border-white/10">
+            <div className="divide-y divide-stone-200 dark:divide-white/15 border-y border-stone-200 dark:border-white/15">
               {CRAFT_PILLARS.map((pillar, idx) => (
                 <motion.div
                   key={pillar.index}
@@ -119,7 +105,7 @@ export const ServicesCraftSection: React.FC<ServicesCraftSectionProps> = ({ conf
                     <h3 className="font-display text-2xl font-semibold text-stone-900 dark:text-[#F5F2EB] mb-1.5">
                       {pillar.title}
                     </h3>
-                    <p className="text-sm sm:text-base text-stone-600 dark:text-[#A8A29E] leading-relaxed">
+                    <p className="text-sm sm:text-base text-stone-700 dark:text-[#D6D1C7] leading-relaxed">
                       {pillar.description}
                     </p>
                   </div>

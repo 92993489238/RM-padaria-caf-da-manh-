@@ -7,8 +7,8 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ config }) => {
   return (
-    <footer className="border-t border-stone-200 dark:border-white/10 py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-xs sm:text-sm text-stone-500 dark:text-[#A8A29E]">
+    <footer className="relative z-10 border-t border-stone-200 dark:border-white/10 bg-[#F8F6F1]/75 dark:bg-[#0F0E0D]/55 backdrop-blur-sm py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-xs sm:text-sm text-stone-600 dark:text-[#D6D1C7]">
         <div>
           <p className="font-display text-xl font-semibold text-stone-900 dark:text-[#F5F2EB]">
             {config.businessName}

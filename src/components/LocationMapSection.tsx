@@ -22,7 +22,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({
   const mapQuery = encodeURIComponent(fullLocation || 'Manaus, Amazonas, Brasil');
 
   return (
-    <section id="localizacao" className="py-16 sm:py-24">
+    <section id="localizacao" className="relative z-10 py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           {/* Contact & Location Details */}
@@ -44,7 +44,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({
                   style={{ color: config.accentColor }}
                 />
                 <div>
-                  <p className="text-xs font-medium text-stone-500 dark:text-[#A8A29E] mb-0.5">
+                  <p className="text-xs font-medium text-stone-500 dark:text-[#D6D1C7] mb-0.5">
                     Endereço
                   </p>
                   <p className="text-sm sm:text-base text-stone-900 dark:text-[#F5F2EB]">
@@ -61,7 +61,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({
                   style={{ color: config.accentColor }}
                 />
                 <div>
-                  <p className="text-xs font-medium text-stone-500 dark:text-[#A8A29E] mb-0.5">
+                  <p className="text-xs font-medium text-stone-500 dark:text-[#D6D1C7] mb-0.5">
                     Horário de Funcionamento
                   </p>
                   <p className="text-sm sm:text-base text-stone-900 dark:text-[#F5F2EB]">

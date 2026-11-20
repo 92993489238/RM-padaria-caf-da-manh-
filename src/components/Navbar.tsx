@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Menu, MessageCircle, X } from 'lucide-react';
 import { BakeryConfig } from '../types/bakery';
 
@@ -26,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [logoVideoError, setLogoVideoError] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-stone-200/80 dark:border-white/10 bg-[#F8F6F1]/90 dark:bg-[#0F0E0D]/90 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-40 border-b border-stone-200/80 dark:border-white/10 bg-[#F8F6F1]/85 dark:bg-[#0F0E0D]/80 backdrop-blur-md transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[68px] flex items-center justify-between gap-8">
         {/* Zone 1: Single-line Brand Wordmark */}
         <a
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Zone 3: 1 Primary Action */}
         <div className="flex items-center gap-2 shrink-0">
-          <button
+          <motion.button
             type="button"
             onClick={onOpenOrderDrawer}
             title={
@@ -123,17 +123,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : 'Pedir no WhatsApp'
             }
             style={{ backgroundColor: config.accentColor }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[40px] rounded-md text-xs sm:text-sm font-semibold text-[#11100F] hover:brightness-110 transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D99B38]"
+            animate={prefersReducedMotion ? undefined : { y: [0, -3.5, 0] }}
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
+            }
+            whileHover={
+              prefersReducedMotion
+                ? undefined
+                : { y: -5, scale: 1.03, transition: { duration: 0.2, ease: 'easeOut' } }
+            }
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-[40px] rounded-full text-xs sm:text-sm font-semibold text-[#11100F] ring-1 ring-white/25 shadow-[0_10px_24px_-6px_rgba(217,155,56,0.55),0_4px_10px_rgba(0,0,0,0.3)] hover:brightness-110 hover:shadow-[0_14px_28px_-6px_rgba(217,155,56,0.7),0_8px_16px_rgba(0,0,0,0.35)] transition-[filter,box-shadow] duration-200 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D99B38]"
           >
             <MessageCircle className="w-4 h-4 shrink-0" />
             <span className="hidden sm:inline">Pedir no WhatsApp</span>
             <span className="sm:hidden">WhatsApp</span>
             {cartCount > 0 && (
-              <span className="font-mono-tabular text-xs font-bold px-1.5 py-0.5 rounded bg-[#11100F]/15 text-[#11100F]">
+              <span className="font-mono-tabular text-xs font-bold px-1.5 py-0.5 rounded-full bg-[#11100F]/15 text-[#11100F]">
                 {cartCount}
               </span>
             )}
-          </button>
+          </motion.button>
 
           <button
             type="button"

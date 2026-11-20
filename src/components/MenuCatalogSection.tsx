@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Plus, Search, ShoppingBag } from 'lucide-react';
 import { BakeryConfig, MenuCategory, MenuItem } from '../types/bakery';
+import { CulinaryVideoPlayer } from './CulinaryVideoPlayer';
 import { ResilientImage } from './ResilientImage';
 
 interface MenuCatalogSectionProps {
@@ -29,7 +30,6 @@ export const MenuCatalogSection: React.FC<MenuCatalogSectionProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('Todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
-  const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
 
   const filteredItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -56,7 +56,7 @@ export const MenuCatalogSection: React.FC<MenuCatalogSectionProps> = ({
   return (
     <section
       id="cardapio"
-      className="py-16 sm:py-24 border-b border-stone-200 dark:border-white/10"
+      className="relative z-10 py-16 sm:py-24 border-b border-stone-200 dark:border-white/10"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header & Search */}
@@ -145,7 +145,7 @@ export const MenuCatalogSection: React.FC<MenuCatalogSectionProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.map((item, idx) => {
               const isJustAdded = justAddedId === item.id;
-              const showVideo = Boolean(item.videoUrl && !failedVideoIds[item.id]);
+              const showVideo = Boolean(item.videoUrl);
               return (
                 <motion.article
                   key={`${selectedCategory}-${item.id}`}
@@ -162,25 +162,21 @@ export const MenuCatalogSection: React.FC<MenuCatalogSectionProps> = ({
                     delay: prefersReducedMotion ? 0 : (idx % 3) * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="group flex flex-col rounded-xl overflow-hidden bg-white dark:bg-[#181614] border border-stone-200 dark:border-white/10"
+                  className="group flex flex-col rounded-xl overflow-hidden bg-white/92 dark:bg-[#141210]/80 backdrop-blur-md border border-stone-200 dark:border-white/12 shadow-lg"
                 >
                   {/* 4:3 Uniform Imagery / Video */}
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-[#141210]">
-                    {showVideo ? (
-                      <video
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#141210]">
+                    {showVideo && item.videoUrl ? (
+                      <CulinaryVideoPlayer
                         src={item.videoUrl}
                         poster={item.image}
-                        autoPlay={!prefersReducedMotion}
-                        loop
-                        muted
-                        playsInline
-                        controls={Boolean(prefersReducedMotion)}
-                        preload="auto"
-                        onError={() =>
-                          setFailedVideoIds((prev) => ({ ...prev, [item.id]: true }))
-                        }
-                        aria-label={item.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        title={item.name}
+                        accentColor={config.accentColor}
+                        controlsPosition="bottom"
+                        disableAudio={Boolean(item.muteAudio)}
+                        customAudioText={item.customAudioText}
+                        customAudioVoice={item.customAudioVoice}
+                        videoClassName="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     ) : (
                       <ResilientImage
@@ -198,10 +194,14 @@ export const MenuCatalogSection: React.FC<MenuCatalogSectionProps> = ({
                     {/* Zero-pill quiet metadata */}
                     <p className="text-xs text-stone-500 dark:text-[#A8A29E] mb-2">
                       <span>{item.category}</span>
-                      <span aria-hidden="true" className="mx-1.5">
-                        ·
-                      </span>
-                      <span>{item.unitLabel}</span>
+                      {item.unitLabel && (
+                        <>
+                          <span aria-hidden="true" className="mx-1.5">
+                            ·
+                          </span>
+                          <span>{item.unitLabel}</span>
+                        </>
+                      )}
                     </p>
 
                     <h3 className="font-display text-2xl font-semibold text-stone-900 dark:text-[#F5F2EB] mb-2">

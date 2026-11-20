@@ -16,6 +16,9 @@ export interface MenuItem {
   unitLabel: string;
   image: string;
   videoUrl?: string;
+  muteAudio?: boolean;
+  customAudioText?: string;
+  customAudioVoice?: string;
   featured?: boolean;
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useReducedMotion } from 'motion/react';
 import { ChevronLeft, ChevronRight, Expand, Pause, Play, X } from 'lucide-react';
 import { BakeryConfig, GalleryItem } from '../types/bakery';
+import { CulinaryVideoPlayer } from './CulinaryVideoPlayer';
 import { ResilientImage } from './ResilientImage';
 
 interface CinematicGallerySectionProps {
@@ -47,21 +48,23 @@ export const CinematicGallerySection: React.FC<CinematicGallerySectionProps> = (
   );
 
   useEffect(() => {
-    if (!isPlaying || embedUrl || items.length <= 1) return;
+    if (!isPlaying || embedUrl || items.length <= 1 || lightboxIndex !== null) {
+      return;
+    }
     const timer = window.setInterval(() => {
       setReelIndex((prev) => (prev + 1) % items.length);
     }, 5200);
     return () => window.clearInterval(timer);
-  }, [isPlaying, embedUrl, items.length]);
+  }, [isPlaying, embedUrl, items.length, lightboxIndex]);
 
   const currentReel = items[reelIndex] ?? items[0];
 
   return (
     <section
       id="galeria"
-      className="py-16 sm:py-24 border-b border-stone-200 dark:border-white/10"
+      className="relative py-16 sm:py-24 border-b border-stone-200 dark:border-white/10"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
             <p
@@ -123,23 +126,21 @@ export const CinematicGallerySection: React.FC<CinematicGallerySectionProps> = (
               currentReel && (
                 <>
                   {currentReel.videoEmbedUrl && !failedVideoIds[currentReel.id] ? (
-                    <video
+                    <CulinaryVideoPlayer
                       key={currentReel.id}
                       src={currentReel.videoEmbedUrl}
                       poster={currentReel.image}
-                      autoPlay={!prefersReducedMotion}
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                      onError={() =>
+                      title={currentReel.title}
+                      accentColor={config.accentColor}
+                      controlsPosition="top"
+                      onUnmute={() => setIsPlaying(false)}
+                      onMediaError={() =>
                         setFailedVideoIds((prev) => ({
                           ...prev,
                           [currentReel.id]: true,
                         }))
                       }
-                      aria-label={currentReel.title}
-                      className="w-full h-full object-cover"
+                      videoClassName="w-full h-full object-cover"
                     />
                   ) : (
                     <ResilientImage
@@ -154,7 +155,7 @@ export const CinematicGallerySection: React.FC<CinematicGallerySectionProps> = (
                   )}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
                   />
                   <div className="absolute bottom-0 inset-x-0 p-6 sm:p-8 flex items-end justify-between gap-4">
                     <div>
@@ -291,17 +292,18 @@ export const CinematicGallerySection: React.FC<CinematicGallerySectionProps> = (
               <X className="w-5 h-5" />
             </button>
 
-            <div className="aspect-[16/10] w-full bg-black">
+            <div className="relative aspect-[16/10] w-full bg-black">
               {items[lightboxIndex].videoEmbedUrl &&
               !failedVideoIds[items[lightboxIndex].id] ? (
-                <video
-                  src={items[lightboxIndex].videoEmbedUrl}
+                <CulinaryVideoPlayer
+                  key={items[lightboxIndex].id}
+                  src={items[lightboxIndex].videoEmbedUrl!}
                   poster={items[lightboxIndex].image}
-                  autoPlay
-                  controls
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
+                  title={items[lightboxIndex].title}
+                  accentColor={config.accentColor}
+                  initialUnmuted={true}
+                  controlsPosition="bottom"
+                  videoClassName="w-full h-full object-cover"
                 />
               ) : (
                 <ResilientImage
